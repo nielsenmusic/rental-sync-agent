@@ -15,27 +15,24 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v4
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v44.3.1
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore CalendarSyncAgent.csproj
-        working-directory: ${{ github.workspace }}
+        run: dotnet restore src/CalendarSyncAgent.csproj
 
       - name: Build
-        run: dotnet build CalendarSyncAgent.csproj --configuration Release --no-restore
-        working-directory: ${{ github.workspace }}
-        
+        run: dotnet build src/CalendarSyncAgent.csproj --configuration Release --no-restore
+
       - name: Run sync agent
         env:
           AIRBNB_ICAL_URL:  ${{ secrets.AIRBNB_ICAL_URL }}
           BOOKING_ICAL_URL: ${{ secrets.BOOKING_ICAL_URL }}
-        run: dotnet run --project CalendarSyncAgent.csproj --configuration Release
-        working-directory: ${{ github.workspace }}
+        run: dotnet run --project src/CalendarSyncAgent.csproj --configuration Release
 
       - name: Commit and push updated calendar and log
         run: |
