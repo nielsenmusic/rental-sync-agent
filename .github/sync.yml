@@ -17,6 +17,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Debug file structure
+        run: find . -type f | sort
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
