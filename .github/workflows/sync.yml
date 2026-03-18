@@ -24,15 +24,18 @@ jobs:
 
       - name: Restore dependencies
         run: dotnet restore src/CalendarSyncAgent.csproj
+        working-directory: ${{ github.workspace }}
 
       - name: Build
         run: dotnet build src/CalendarSyncAgent.csproj --configuration Release --no-restore
-
+        working-directory: ${{ github.workspace }}
+        
       - name: Run sync agent
         env:
           AIRBNB_ICAL_URL:  ${{ secrets.AIRBNB_ICAL_URL }}
           BOOKING_ICAL_URL: ${{ secrets.BOOKING_ICAL_URL }}
         run: dotnet run --project src/CalendarSyncAgent.csproj --configuration Release
+        working-directory: ${{ github.workspace }}
 
       - name: Commit and push updated calendar and log
         run: |
